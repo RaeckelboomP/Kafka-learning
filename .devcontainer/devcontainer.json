@@ -14,5 +14,7 @@
     }
   },
   "forwardPorts": [8080],
-  "postCreateCommand": "mvn -q -DskipTests package || true"
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind"
+  ]
 }

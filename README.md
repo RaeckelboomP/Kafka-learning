@@ -8,3 +8,12 @@ I will create a very simple notification application to use kafka's features.
 - Kafka broker
 - Angular application (shows notifications from the java application through Web Socket)
 
+## How to launch the application
+
+### Only the java backend
+
+- Open a terminal
+- ```bash
+  cd learning-kafka-java
+  run spring-boot:run
+  ```
