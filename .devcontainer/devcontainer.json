@@ -1,5 +1,5 @@
 {
-  "name": "Java Devcontainer",
+  "name": "Java Angular Devcontainer",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -9,7 +9,8 @@
       "extensions": [
         "vscjava.vscode-java-pack",
         "pivotal.vscode-spring-boot",
-        "redhat.vscode-xml"
+        "redhat.vscode-xml",
+        "angular.ng-template"
       ]
     }
   },
