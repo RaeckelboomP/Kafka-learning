@@ -1,5 +1,5 @@
 {
-  "name": "Java Angular Devcontainer",
+  "name": "java-angular-devcontainer",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -14,7 +14,7 @@
       ]
     }
   },
-  "forwardPorts": [8080],
+  "forwardPorts": [4200],
   "mounts": [
     "source=${localWorkspaceFolder},target=/workspace,type=bind"
   ]
