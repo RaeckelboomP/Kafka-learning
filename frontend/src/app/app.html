@@ -1,0 +1,52 @@
+<div id="main-view">
+  <h1>Welcome to Kafka Frontend!</h1>
+
+  <div *ngIf="webSocketConnected">
+    <form [formGroup]="messageForm" aria-label="Aria Label">
+      <input type="text" placeholder="Type a message..." formControlName="message"
+        (keydown.enter)="sendMessage('topic-1')" />
+      <button type="button" (click)="sendMessage('topic-1')" id="send-button-topic-1"
+        [disabled]="messageForm.invalid">Send to topic 1</button>
+      <button type="button" (click)="sendMessage('topic-2')" id="send-button-topic-2"
+        [disabled]="messageForm.invalid">Send to topic 2</button>
+    </form>
+
+    <div id="messages-container">
+      <h2>Messages received from the backend:</h2>
+      <section>
+        <h3>Topic 1</h3>
+        <ul id="messages-list">
+          <!-- <li *ngFor="let item of items">
+            {{ item.message }} (from {{ item.topic }})
+          </li> -->
+          @for (item of topic1Items; track $index) {
+          <li>
+            {{ item.message }} (from {{ item.topic }})
+          </li>
+          } @empty {
+          <li>No messages received yet.</li>
+          }
+        </ul>
+      </section>
+            <section>
+        <h3>Topic 2</h3>
+        <ul id="messages-list">
+          <!-- <li *ngFor="let item of items">
+            {{ item.message }} (from {{ item.topic }})
+          </li> -->
+          @for (item of topic2Items; track $index) {
+          <li>
+            {{ item.message }} (from {{ item.topic }})
+          </li>
+          } @empty {
+          <li>No messages received yet.</li>
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <div *ngIf="!webSocketConnected">
+    <p>Connecting to WebSocket...</p>
+  </div>
+</div>
