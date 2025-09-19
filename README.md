@@ -24,3 +24,17 @@ The Java application will listen to Kafka as a consumer, decorate the message an
   cd learning-kafka-java
   run spring-boot:run
   ```
+
+## How to use kafka
+
+Use the command ```bash docker compose up -d```
+To create the topics : 
+```bash 
+docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topic-1 --partitions 3 --replication-factor 1
+
+docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topic-2 --partitions 3 --replication-factor 1
+```
+To list the topics :
+```bash
+docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+```
