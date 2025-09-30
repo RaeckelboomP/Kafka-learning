@@ -16,10 +16,6 @@
       <section>
         <h3>Topic 1</h3>
         <ul id="messages-list">
-          <!-- Former way to iterate on a list :
-            <li *ngFor="let item of items">
-            {{ item.message }} (from {{ item.topic }})
-          </li> -->
           @for (message of topic1Messages; track $index) {
           <li>
             {{ message.content }} (from {{ message.topic }})
@@ -32,9 +28,6 @@
             <section>
         <h3>Topic 2</h3>
         <ul id="messages-list">
-          <!-- <li *ngFor="let item of items">
-            {{ item.message }} (from {{ item.topic }})
-          </li> -->
           @for (message of topic2Messages; track $index) {
           <li>
             {{ message.content }} (from {{ message.topic }})

@@ -35,7 +35,7 @@ export class KafkaStompService {
 
   sendMessage(msg: KafkaMessage) {
     this.client.publish({
-      destination: '/app/sendMessage', // corresponds to @MessageMapping("/sendMessage")
+      destination: '/app/sendMessage',
       body: JSON.stringify(msg)
     });
   }

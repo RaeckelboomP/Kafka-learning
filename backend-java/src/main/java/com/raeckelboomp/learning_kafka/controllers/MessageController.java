@@ -1,8 +1,8 @@
 package com.raeckelboomp.learning_kafka.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.raeckelboomp.learning_kafka.models.KafkaMessage;
@@ -11,12 +11,12 @@ import com.raeckelboomp.learning_kafka.models.KafkaMessage;
 public class MessageController {
 
     @Autowired
-    private SimpMessagingTemplate template;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    @MessageMapping("/sendMessage") // corresponds to /app/sendMessage
+    @MessageMapping("/sendMessage")
     public void receiveMessage(KafkaMessage msg) {
         msg.setContent("Backend received: " + msg.getContent());
-        template.convertAndSend("/topic/messages", msg);
+        this.kafkaTemplate.send(msg.getTopic(), msg.getContent());
     }
 
 }
