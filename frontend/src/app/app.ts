@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { KafkaMessage } from './models/kafka-message.model';
+import { KafkaStompService } from './services/websocket.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,19 +13,43 @@ import { CommonModule } from '@angular/common';
 })
 export class App {
   protected readonly title = signal('kafka-frontend');
-  webSocketConnected = true;
-  items = [
-  {message: 'Sword', topic: 'topic-1'},
-  {message: 'Potion', topic: 'topic-1'},
-  {message: 'Shield', topic: 'topic-2'},
-  ];
+  webSocketConnected = false;
+  messages: KafkaMessage[] = [];
+  private sub!: Subscription;
 
-  get topic1Items() {
-  return this.items.filter(i => i.topic === 'topic-1');
-}
-  get topic2Items() {
-  return this.items.filter(i => i.topic === 'topic-2');
-}
+  constructor(private wsService: KafkaStompService) { }
+
+  ngOnInit() {
+    this.wsService.getConnectionState().subscribe(connected => {
+      this.webSocketConnected = connected;
+    });
+
+    this.sub = this.wsService.getMessages().subscribe({
+      next: (msg) => this.messages.push(msg),
+      error: (err) => console.error('WebSocket error', err),
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+    this.wsService.close();
+  }
+
+  toggleConnection() {
+    if (this.webSocketConnected) {
+      this.wsService.close();
+    } else {
+      this.wsService = new KafkaStompService();
+      this.ngOnInit();
+    }
+  }
+
+  get topic1Messages() {
+    return this.messages.filter(i => i.topic === 'topic-1');
+  }
+  get topic2Messages() {
+    return this.messages.filter(i => i.topic === 'topic-2');
+  }
 
   messageForm: FormGroup = new FormGroup({
     message: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
@@ -32,7 +59,6 @@ export class App {
     const message = this.messageForm.value.message?.trim();
     if (!message) return;
     console.log(`Sending "${message}" to ${topic}`);
-    this.items.push({message, topic});
-    this.messageForm.setValue({ message: '' });
+    this.wsService.sendMessage({ topic, content: message });
   };
 }

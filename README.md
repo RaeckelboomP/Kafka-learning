@@ -17,12 +17,19 @@ The Java application will listen to Kafka as a consumer, decorate the message an
 
 ## How to launch the application
 
-### Only the java backend
+### Java backend
 
 - Open a terminal
 - ```bash
   cd learning-kafka-java
-  run spring-boot:run
+  mvn spring-boot:run
+  ```
+
+### Frontend
+
+- Open a new terminal
+- ```bash
+  ng serve --host 0.0.0.0 --port 4200
   ```
 
 ## How to use kafka
@@ -38,3 +45,24 @@ To list the topics :
 ```bash
 docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 ```
+To delete a topic :
+```bash
+docker exec -it broker /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server localhost:9092 \
+  --delete --topic topic-1
+```
+This kafka container persist data between launches, to load new configurations, use ```bash docker compose down -v```.
+
+To check the configurations use ```bash docker exec -it broker env | grep KAFKA```.
+
+### Notes on the configuration
+
+In the docker-compose for kafka :
+```KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092```
+KAFKA_ADVERTISED_LISTENERS is the address advertised by kafka tto the listeners.
+We use ```host.docker.internal:9092``` to reach the port 9092 within the docker internal network.
+Because I'm working in a devcontainer, the two container are in different networks, so I must use the internal docker network to reach kafka.
+
+In the java application.properties :
+```spring.kafka.bootstrap-servers=host.docker.internal:9092```
+We simply tell the address of kafka. We cannot use kafka's DNS "broker" because it is not know inside the devcontainer.
