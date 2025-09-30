@@ -13,13 +13,17 @@ import { Subscription } from 'rxjs';
 })
 export class App {
   protected readonly title = signal('kafka-frontend');
-  webSocketConnected = true;
+  webSocketConnected = false;
   messages: KafkaMessage[] = [];
   private sub!: Subscription;
 
   constructor(private wsService: KafkaStompService) { }
 
   ngOnInit() {
+    this.wsService.getConnectionState().subscribe(connected => {
+      this.webSocketConnected = connected;
+    });
+
     this.sub = this.wsService.getMessages().subscribe({
       next: (msg) => this.messages.push(msg),
       error: (err) => console.error('WebSocket error', err),
@@ -29,6 +33,15 @@ export class App {
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.wsService.close();
+  }
+
+  toggleConnection() {
+    if (this.webSocketConnected) {
+      this.wsService.close();
+    } else {
+      this.wsService = new KafkaStompService();
+      this.ngOnInit();
+    }
   }
 
   get topic1Messages() {

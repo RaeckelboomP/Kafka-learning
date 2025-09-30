@@ -1,42 +1,54 @@
 <div id="main-view">
-  <h1>Welcome to Kafka Frontend!</h1>
+  <section id="header-section">
+    <h1>Welcome to Kafka WebSocket POC!</h1>
+    <img id="architecture-image" src="images/kafka_websocket_architecture.png" alt="kafka_websocket_architecture">
+  </section>
+  <section id="connection-section">
+    WebSocket status: <strong>{{ webSocketConnected ? 'Connected' : 'Disconnected' }}</strong>
+    <button *ngIf="!webSocketConnected" (click)="toggleConnection()">Connect WebSocket</button>
+    <button *ngIf="webSocketConnected" (click)="toggleConnection()">Disconnect WebSocket</button>
+  </section>
 
   <div *ngIf="webSocketConnected">
-    <form [formGroup]="messageForm" aria-label="Aria Label">
+    <form id="form" [formGroup]="messageForm" aria-label="Aria Label">
       <input type="text" placeholder="Type a message..." formControlName="message"
         (keydown.enter)="sendMessage('topic-1')" />
-      <button type="button" (click)="sendMessage('topic-1')" id="send-button-topic-1"
-        [disabled]="messageForm.invalid">Send to topic 1</button>
-      <button type="button" (click)="sendMessage('topic-2')" id="send-button-topic-2"
-        [disabled]="messageForm.invalid">Send to topic 2</button>
+      <div id="buttons-container">
+        <button type="button" (click)="sendMessage('topic-1')" id="send-button-topic-1"
+          [disabled]="messageForm.invalid">Send to topic 1</button>
+        <button type="button" (click)="sendMessage('topic-2')" id="send-button-topic-2"
+          [disabled]="messageForm.invalid">Send to topic 2</button>
+      </div>
     </form>
 
     <div id="messages-container">
       <h2>Messages received from the backend:</h2>
-      <section>
-        <h3>Topic 1</h3>
-        <ul id="messages-list">
-          @for (message of topic1Messages; track $index) {
-          <li>
-            {{ message.content }} (from {{ message.topic }})
-          </li>
-          } @empty {
-          <li>No messages received yet.</li>
-          }
-        </ul>
-      </section>
-            <section>
-        <h3>Topic 2</h3>
-        <ul id="messages-list">
-          @for (message of topic2Messages; track $index) {
-          <li>
-            {{ message.content }} (from {{ message.topic }})
-          </li>
-          } @empty {
-          <li>No messages received yet.</li>
-          }
-        </ul>
-      </section>
+      <div id="messages-sections">
+        <section>
+          <h3>Topic 1</h3>
+          <ul id="messages-list">
+            @for (message of topic1Messages; track $index) {
+            <li>
+              {{ message.content }} (from {{ message.topic }})
+            </li>
+            } @empty {
+            <li>No messages received yet.</li>
+            }
+          </ul>
+        </section>
+        <section>
+          <h3>Topic 2</h3>
+          <ul id="messages-list">
+            @for (message of topic2Messages; track $index) {
+            <li>
+              {{ message.content }} (from {{ message.topic }})
+            </li>
+            } @empty {
+            <li>No messages received yet.</li>
+            }
+          </ul>
+        </section>
+      </div>
     </div>
   </div>
 
