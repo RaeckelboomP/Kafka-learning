@@ -20,9 +20,9 @@
             <li *ngFor="let item of items">
             {{ item.message }} (from {{ item.topic }})
           </li> -->
-          @for (item of topic1Items; track $index) {
+          @for (message of topic1Messages; track $index) {
           <li>
-            {{ item.message }} (from {{ item.topic }})
+            {{ message.content }} (from {{ message.topic }})
           </li>
           } @empty {
           <li>No messages received yet.</li>
@@ -35,9 +35,9 @@
           <!-- <li *ngFor="let item of items">
             {{ item.message }} (from {{ item.topic }})
           </li> -->
-          @for (item of topic2Items; track $index) {
+          @for (message of topic2Messages; track $index) {
           <li>
-            {{ item.message }} (from {{ item.topic }})
+            {{ message.content }} (from {{ message.topic }})
           </li>
           } @empty {
           <li>No messages received yet.</li>
