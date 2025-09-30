@@ -16,7 +16,8 @@
       <section>
         <h3>Topic 1</h3>
         <ul id="messages-list">
-          <!-- <li *ngFor="let item of items">
+          <!-- Former way to iterate on a list :
+            <li *ngFor="let item of items">
             {{ item.message }} (from {{ item.topic }})
           </li> -->
           @for (item of topic1Items; track $index) {

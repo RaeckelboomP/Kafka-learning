@@ -17,12 +17,19 @@ The Java application will listen to Kafka as a consumer, decorate the message an
 
 ## How to launch the application
 
-### Only the java backend
+### Java backend
 
 - Open a terminal
 - ```bash
   cd learning-kafka-java
   mvn spring-boot:run
+  ```
+
+### Frontend
+
+- Open a new terminal
+- ```bash
+  ng serve --host 0.0.0.0 --port 4200
   ```
 
 ## How to use kafka

@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { KafkaMessage } from './models/kafka-message.model';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,7 @@ import { CommonModule } from '@angular/common';
 export class App {
   protected readonly title = signal('kafka-frontend');
   webSocketConnected = true;
-  items = [
-  {message: 'Sword', topic: 'topic-1'},
-  {message: 'Potion', topic: 'topic-1'},
-  {message: 'Shield', topic: 'topic-2'},
-  ];
+  items: KafkaMessage[] = [];
 
   get topic1Items() {
   return this.items.filter(i => i.topic === 'topic-1');
