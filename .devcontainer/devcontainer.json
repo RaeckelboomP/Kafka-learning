@@ -1,5 +1,5 @@
 {
-  "name": "Java Devcontainer",
+  "name": "java-angular-devcontainer",
   "build": {
     "dockerfile": "Dockerfile"
   },
@@ -9,11 +9,12 @@
       "extensions": [
         "vscjava.vscode-java-pack",
         "pivotal.vscode-spring-boot",
-        "redhat.vscode-xml"
+        "redhat.vscode-xml",
+        "angular.ng-template"
       ]
     }
   },
-  "forwardPorts": [8080],
+  "forwardPorts": [4200],
   "mounts": [
     "source=${localWorkspaceFolder},target=/workspace,type=bind"
   ]
