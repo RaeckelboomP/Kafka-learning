@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Client, IMessage, Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import { Client, IMessage } from '@stomp/stompjs';
 import { Subject, Observable } from 'rxjs';
 import { KafkaMessage } from '../models/kafka-message.model';
 
@@ -13,7 +12,7 @@ export class KafkaStompService {
 
   constructor() {
     this.client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      brokerURL: 'ws://localhost:8080/ws',
       debug: (str) => console.log(str),
       reconnectDelay: 5000
     });
