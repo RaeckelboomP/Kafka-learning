@@ -45,6 +45,7 @@ You can either use the [Dev container extension](https://marketplace.visualstudi
 
 - Open a new terminal
 - ```bash
+
   cd frontend
   ng serve --host 0.0.0.0 --port 4200
   ```
