@@ -1,6 +1,7 @@
 # kafka-learning
 The goal of this project is to learn Kafka by doing.
 I will create a very simple application to use kafka's event feature.
+This project use **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **Docker**.
 
 ## Architecture
 
