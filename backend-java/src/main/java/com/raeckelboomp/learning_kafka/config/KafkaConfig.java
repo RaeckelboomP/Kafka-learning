@@ -5,20 +5,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
+import com.raeckelboomp.learning_kafka.models.KafkaTopics;
+
 @Configuration
 public class KafkaConfig {
     
     @Bean
-    public NewTopic topic1() {
-        return TopicBuilder.name("topic-1")
+    public NewTopic orders() {
+        return TopicBuilder.name(KafkaTopics.ORDERS)
                 .partitions(3)
                 .replicas(1)
                 .build();
     }
 
     @Bean
-    public NewTopic topic2() {
-        return TopicBuilder.name("topic-2")
+    public NewTopic orderStatus() {
+        return TopicBuilder.name(KafkaTopics.ORDER_STATUS)
                 .partitions(3)
                 .replicas(1)
                 .build();

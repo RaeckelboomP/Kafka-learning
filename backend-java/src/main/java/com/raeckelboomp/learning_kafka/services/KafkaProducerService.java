@@ -13,6 +13,10 @@ public class KafkaProducerService {
     }
 
     public void sendMessage(String topic, String message) {
+        if (topic == null || topic.isEmpty()) {
+            System.err.println("Topic cannot be null or empty.");
+            return;
+        }
         kafkaTemplate.send(topic, message);
     }
 }

@@ -1,6 +1,5 @@
 # kafka-learning
-The goal of this project is to learn Kafka by doing.
-I will create a very simple application to use kafka's event feature.
+The goal of this project is to simulate an order handling system based on an event-driven architecture with Kafka and WebSockets.
 This project use **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **Docker**.
 
 ## Architecture
@@ -9,12 +8,9 @@ This project use **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **
 - Kafka broker
 - Angular application (shows Java messages)
 
-To test Kafka's capabilities, the Angular application will have an input and two buttons :
-- Send to topic 1
-- Send to topic 2
+To test Kafka's capabilities, the Angular application will have one button to create an order, and a list of orders and their status.
 
-A click on each of these buttons will send the message to Java via WebSocket, which store them in their respective topics in Kafka.
-The Java application will listen to Kafka as a consumer, decorate the message and send it back to the angular application through the WebSocket.
+The backend will receive the order and create a message in kafka's orders topic, the consumer will then receive this message and create a message in kafka's order-status topic, and periodically update the status **PROCESSING → SHIPPED → IN_TRANSIT → DELIVERED**. Each order update is sent by websocket to the frontend to display it in the list.
 
 ## How to launch the application
 

@@ -1,6 +1,6 @@
 package com.raeckelboomp.learning_kafka.models;
 
-public class KafkaMessage {
+public class WebSocketMessage {
     private String content;
     private String topic;
 

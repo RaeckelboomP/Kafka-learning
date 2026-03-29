@@ -5,7 +5,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import com.raeckelboomp.learning_kafka.models.KafkaMessage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.raeckelboomp.learning_kafka.models.KafkaTopics;
+import com.raeckelboomp.learning_kafka.models.OrderEvent;
 
 @Service
 public class KafkaConsumerService {
@@ -13,20 +15,31 @@ public class KafkaConsumerService {
     @Autowired
     private SimpMessagingTemplate template;
 
-    @KafkaListener(id = "listener1", topics = "topic-1")
-    public void listenTopic1(String message) {
-        KafkaMessage msg = new KafkaMessage();
-        msg.setTopic("topic-1");
-        msg.setContent("Received from kafka's topic-1: " + message);
-        template.convertAndSend("/topic/messages", msg);
+    @Autowired
+    private OrderStatusService orderStatusService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @SuppressWarnings("null")
+    @KafkaListener(id = "orders-listener", topics = KafkaTopics.ORDERS, concurrency = "3")
+    public void listenOrdersTopic(String orderEventJson) {
+        OrderEvent orderEvent;
+        try {
+            orderEvent = objectMapper.readValue(orderEventJson, OrderEvent.class);
+            orderStatusService.processOrderStatus(orderEvent);
+            template.convertAndSend("/topic/orders", orderEventJson);
+        } catch (Exception e) {
+            System.out.println("Failed to deserialize OrderEvent: " + e.getMessage());
+            e.printStackTrace();
+            return;
+        }
     }
 
-    @KafkaListener(id = "listener2", topics = "topic-2")
-    public void listenTopic2(String message) {
-        KafkaMessage msg = new KafkaMessage();
-        msg.setTopic("topic-2");
-        msg.setContent("Received from kafka's topic-2: " + message);
-        template.convertAndSend("/topic/messages", msg);
+    @SuppressWarnings("null")
+    @KafkaListener(id = "order-status-listener", topics = KafkaTopics.ORDER_STATUS, concurrency = "3")
+    public void listenOrderStatusTopic(String kafkaOrderStatusEvent) {
+        template.convertAndSend("/topic/order-status", kafkaOrderStatusEvent);
     }
 
 }

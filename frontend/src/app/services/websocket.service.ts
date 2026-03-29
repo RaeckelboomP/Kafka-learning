@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { KafkaMessage } from '../models/kafka-message.model';
+import { OrderCreationMessage } from '../models/order-creation-message.model';
+import { OrderMessage } from '../models/order-message.model';
+import { OrderStatusMessage } from '../models/order-status-message.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KafkaStompService {
   private client: Client;
-  private messageSubject = new Subject<KafkaMessage>();
-
-  // BehaviorSubject holds the latest connection state
+  private ordersSubject = new Subject<OrderMessage>();
+  private orderStatusSubject = new Subject<OrderStatusMessage>();
   private connectionState = new BehaviorSubject<boolean>(false);
 
   constructor() {
@@ -33,24 +34,36 @@ export class KafkaStompService {
   private onConnect() {
     console.log('STOMP connected');
     this.connectionState.next(true);
-    this.client.subscribe('/topic/messages', (msg: IMessage) => {
-      const body: KafkaMessage = JSON.parse(msg.body);
-      this.messageSubject.next(body);
+    // Orders topic
+    this.client.subscribe('/topic/orders', (msg: IMessage) => {
+      console.log(msg);
+      const body: OrderMessage = JSON.parse(msg.body);
+      this.ordersSubject.next(body);
     });
+    // Order status topic
+    this.client.subscribe('/topic/order-status', (msg: IMessage) => {
+      const body: OrderStatusMessage = JSON.parse(msg.body);
+      this.orderStatusSubject.next(body);
+    });
+
   }
 
   getConnectionState(): Observable<boolean> {
     return this.connectionState.asObservable();
   }
 
-  getMessages(): Observable<KafkaMessage> {
-    return this.messageSubject.asObservable();
+  getOrdersMessages(): Observable<OrderMessage> {
+    return this.ordersSubject.asObservable();
   }
 
-  sendMessage(msg: KafkaMessage) {
+  getOrderStatusMessages(): Observable<OrderStatusMessage> {
+    return this.orderStatusSubject.asObservable();
+  }
+
+  sendMessage(msg: string) {
     this.client.publish({
       destination: '/app/sendMessage',
-      body: JSON.stringify(msg)
+      body: msg
     });
   }
 
