@@ -1,4 +1,4 @@
-package com.raeckelboomp.learning_kafka.models;
+package com.raeckelboomp.learning_kafka.shared;
 
 public class WebSocketMessage {
     private String content;

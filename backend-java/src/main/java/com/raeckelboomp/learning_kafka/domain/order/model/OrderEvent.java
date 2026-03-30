@@ -1,4 +1,4 @@
-package com.raeckelboomp.learning_kafka.models;
+package com.raeckelboomp.learning_kafka.domain.order.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

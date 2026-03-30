@@ -1,4 +1,4 @@
-package com.raeckelboomp.learning_kafka.models;
+package com.raeckelboomp.learning_kafka.shared;
 
 public final class KafkaTopics {
     public static final String ORDERS = "orders";

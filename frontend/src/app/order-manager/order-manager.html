@@ -40,11 +40,11 @@
         </tr>
         @for (order of orders; track $index) {
         <!-- Main row -->
-        <tr [class.row-error]="order.status === 'ERROR'" (click)="toggleRow(order.id)" style="cursor: pointer;">
+        <tr [class.row-error]="order.status?.includes('ERROR')" (click)="toggleRow(order.id)" style="cursor: pointer;">
           <td>{{ order.id }}</td>
           <td>{{ order.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ order.item }}</td>
-          <td [className]="order.status">{{ order.status }}</td>
+          <td [className]="order.status?.includes('ERROR') ? 'ERROR' : order.status">{{ order.status }}</td>
           <td>{{ order.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
         </tr>
         <!-- Expanded row -->
