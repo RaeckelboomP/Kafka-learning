@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { orderItems } from '../models/order-items.model';
 import { KafkaTopic } from '../models/kafka-topic.model';
-import { KafkaStompService } from '../services/websocket.service';
+import { WebSocketStompService } from '../services/websocket.service';
 import { OrderMessage } from '../models/order-message.model';
 import { OrderStatusMessage } from '../models/order-status-message.model';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export class OrderManager {
   orderMessages: OrderMessage[] = [];
   orderStatusMessages: OrderStatusMessage[] = [];
   private sub!: Subscription;
-  constructor(private wsService: KafkaStompService) { }
+  constructor(private wsService: WebSocketStompService) { }
   private ordersMap = new Map<string, OrderView>();
   orders: OrderView[] = [];
   expandedOrderId: string | null = null;
@@ -50,15 +50,15 @@ export class OrderManager {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.wsService.close();
+    this.sub?.unsubscribe();
+    this.wsService?.close();
   }
 
   toggleConnection() {
     if (this.webSocketConnected) {
       this.wsService.close();
     } else {
-      this.wsService = new KafkaStompService();
+      this.wsService = new WebSocketStompService();
       this.ngOnInit();
     }
   }

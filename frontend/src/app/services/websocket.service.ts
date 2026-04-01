@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { OrderCreationMessage } from '../models/order-creation-message.model';
 import { OrderMessage } from '../models/order-message.model';
 import { OrderStatusMessage } from '../models/order-status-message.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class KafkaStompService {
+export class WebSocketStompService {
   private client: Client;
   private ordersSubject = new Subject<OrderMessage>();
   private orderStatusSubject = new Subject<OrderStatusMessage>();
