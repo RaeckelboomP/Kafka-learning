@@ -4,9 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
 import org.junit.jupiter.api.Test;
-
 import com.raeckelboomp.learning_kafka.application.order.port.OrderStatusEventPublisher;
 import com.raeckelboomp.learning_kafka.domain.order.model.OrderEvent;
 import com.raeckelboomp.learning_kafka.domain.order.service.OrderStatusService;

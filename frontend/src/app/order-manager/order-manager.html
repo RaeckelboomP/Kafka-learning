@@ -49,7 +49,7 @@
           <td [className]="order.status?.includes('ERROR') ? 'ERROR' : order.status">{{ order.status }}</td>
           <td>{{ order.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
         </tr>
-        <!-- Expanded row -->
+        <!-- Expanded rows -->
         @if (expandedOrderId === order.id) {
         <tr class="expanded-row expanded-header">
           <td colspan="5">
@@ -61,7 +61,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td [className]="status.status">{{ status.status }}</td>
+          <td [className]="status.status.includes('ERROR') ? 'ERROR' : status.status">{{ status.status }}</td>
           <td>{{ status.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
         </tr>
         }

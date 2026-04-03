@@ -2,9 +2,7 @@ package com.raeckelboomp.learning_kafka;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
 import org.junit.jupiter.api.Test;
-
 import com.raeckelboomp.learning_kafka.application.messaging.OrderMessagingPublisher;
 import com.raeckelboomp.learning_kafka.application.order.port.OrderEventPublisher;
 import com.raeckelboomp.learning_kafka.application.order.service.OrderApplicationService;

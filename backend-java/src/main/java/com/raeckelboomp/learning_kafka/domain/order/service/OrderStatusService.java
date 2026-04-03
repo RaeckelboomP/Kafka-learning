@@ -2,7 +2,6 @@ package com.raeckelboomp.learning_kafka.domain.order.service;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import com.raeckelboomp.learning_kafka.application.order.port.OrderStatusEventPublisher;
 import com.raeckelboomp.learning_kafka.domain.order.model.OrderEvent;
 import com.raeckelboomp.learning_kafka.domain.order.model.OrderStatusEvent;

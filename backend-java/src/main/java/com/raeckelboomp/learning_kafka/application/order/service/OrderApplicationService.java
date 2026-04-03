@@ -1,7 +1,6 @@
 package com.raeckelboomp.learning_kafka.application.order.service;
 
 import org.springframework.stereotype.Service;
-
 import com.raeckelboomp.learning_kafka.application.messaging.OrderMessagingPublisher;
 import com.raeckelboomp.learning_kafka.application.order.port.OrderEventPublisher;
 import com.raeckelboomp.learning_kafka.application.order.port.ProcessOrderEventUseCase;
