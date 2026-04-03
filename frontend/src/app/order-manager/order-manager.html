@@ -17,17 +17,18 @@
 @if (webSocketConnected) {
 <div id="order-creation-section">
   <form id="form" [formGroup]="messageForm" aria-label="Aria Label">
-    <input type="text" placeholder="Type a message..." formControlName="message" (keydown.enter)="sendMessage()" />
+    <input type="text" maxlength="15" placeholder="Type a message..." formControlName="message"
+      (keydown.enter)="sendMessage()" />
     <button type="button" (click)="sendMessage()" id="send-button-create-order" [disabled]="messageForm.invalid">Create
       order</button>
     <button type="button" (click)="send20Messages()">Send 20 orders</button>
+    <button (click)="clearData()">Clear data</button>
   </form>
   <span class="sub-message">If the input is empty, the order will be created with a random item.</span>
 </div>
 
 <div id="messages-container">
   <h2>Orders</h2>
-  <button (click)="clearData()">Clear data</button>
   <div id="messages-sections">
     <section>
       <table id="orders-table">
@@ -40,7 +41,8 @@
         </tr>
         @for (order of orders; track $index) {
         <!-- Main row -->
-        <tr [class.row-error]="order.status?.includes('ERROR')" (click)="toggleRow(order.id)" style="cursor: pointer;">
+        <tr class="data-row" [class.row-error]="order.status?.includes('ERROR')" (click)="toggleRow(order.id)"
+          style="cursor: pointer;">
           <td>{{ order.id }}</td>
           <td>{{ order.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ order.item }}</td>

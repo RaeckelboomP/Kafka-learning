@@ -23,11 +23,7 @@ public class OrderStatusService {
         for (String baseStatus : VALID_STATUSES) {
             try {
                 publish(orderEvent, baseStatus);
-                if (baseStatus.equals("DELIVERED")) {
-                    sleepRandom();
-                    publish(orderEvent, baseStatus);
-                    break;
-                }
+                if (baseStatus.equals("DELIVERED")) break;
                 sleepRandom();
                 if (hasError()) {
                     baseStatus += "-" + ERROR_STATUS;

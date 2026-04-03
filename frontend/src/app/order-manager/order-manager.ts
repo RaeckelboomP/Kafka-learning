@@ -40,8 +40,6 @@ export class OrderManager {
 
     this.sub = this.wsService.getOrderStatusMessages().subscribe({
       next: (msg) => {
-        console.log('Received order status message:');
-        console.log(msg);
         this.orderStatusMessages.push(msg);
         this.handleOrderStatusMessage(msg);
       },
@@ -51,15 +49,14 @@ export class OrderManager {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
-    this.wsService?.close();
+    //this.wsService?.close();
   }
 
   toggleConnection() {
     if (this.webSocketConnected) {
-      this.wsService.close();
+      this.wsService.disconnect();
     } else {
-      this.wsService = new WebSocketStompService();
-      this.ngOnInit();
+      this.wsService.connect();
     }
   }
 
@@ -72,7 +69,6 @@ export class OrderManager {
     if (!orderItem) {
       orderItem = orderItems[Math.floor(Math.random() * orderItems.length)];
     }
-    console.log(`Sending "${orderItem}" to ${KafkaTopic.ORDERS}`);
     this.wsService.sendMessage(orderItem);
   };
 
