@@ -3,6 +3,9 @@ Event-driven order processing system using Kafka, WebSocket and hexagonal archit
 
 This project use **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **Docker**.
 
+## Quick demo
+<img alt="Quick demo" src="quick-demo.gif" width="900" style="display:block;margin-left:auto;margin-right:auto;">
+
 ## Architecture
 
 - Java application (hexagonal architecture, kafka producer and consumer)
@@ -48,26 +51,20 @@ You can either use the [Dev container extension](https://marketplace.visualstudi
 ### Kafka
 
 - Open a terminal at the root of the project
-- ```bash
+- ```
   docker compose up -f docker-compose-kafka.yml -d
-  ```
-
 ### Java backend
 
 - Open a terminal
 - ```
   cd backend-java
   mvn spring-boot:run
-  ```
-
 ### Frontend
 
 - Open a new terminal
-- ```bash
+- ```
   cd frontend
   ng serve --host 0.0.0.0 --port 4200 // or npm start
-  ```
-
 ## How to use the application
 
 ### WebSocket connection
@@ -91,16 +88,12 @@ You can clear the array with the button "Clear data".
 - ```
   cd backend-java
   mvn test
-  ```
-
 ### Frontend
 
 - Open a new terminal
 - ```bash
   cd frontend
   ng test
-  ```
-
 ## How to use kafka
 
 Use the command ```docker compose up -d``` to start the kafka instance.
