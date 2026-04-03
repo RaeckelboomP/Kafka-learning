@@ -1,0 +1,77 @@
+<section id="connection-section">
+  <div class="connection-status">
+    WebSocket status:
+    @if (webSocketConnected) {
+    <span class="connected">Connected</span>
+    } @else {
+    <span class="disconnected">Disconnected</span>
+    }
+    @if (!webSocketConnected) {
+    <button (click)="toggleConnection()">Connect WebSocket</button>
+    } @else {
+    <button (click)="toggleConnection()">Disconnect WebSocket</button>
+    }
+  </div>
+</section>
+
+@if (webSocketConnected) {
+<div id="order-creation-section">
+  <form id="form" [formGroup]="messageForm" aria-label="Aria Label">
+    <input type="text" maxlength="15" placeholder="Type an item to order..." formControlName="message"
+      (keydown.enter)="sendMessage()" />
+    <button type="button" (click)="sendMessage()" id="send-button-create-order" [disabled]="messageForm.invalid">Create
+      order</button>
+    <button type="button" (click)="send20Messages()">Send 20 orders</button>
+    <button (click)="clearData()">Clear data</button>
+  </form>
+  <span class="sub-message">If the input is empty, the order will be created with a random item.</span>
+</div>
+
+<div id="messages-container">
+  <h2>Orders</h2>
+  <div id="messages-sections">
+    <section>
+      <table id="orders-table">
+        <tr>
+          <th>Order ID</th>
+          <th>Created At</th>
+          <th>Order Item</th>
+          <th>Order Status</th>
+          <th>Last Updated At</th>
+        </tr>
+        @for (order of orders; track $index) {
+        <!-- Main row -->
+        <tr class="data-row" [class.row-error]="order.status?.includes('ERROR')" (click)="toggleRow(order.id)"
+          style="cursor: pointer;">
+          <td>{{ order.id }}</td>
+          <td>{{ order.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td>{{ order.item }}</td>
+          <td [className]="order.status?.includes('ERROR') ? 'ERROR' : order.status">{{ order.status }}</td>
+          <td>{{ order.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+        </tr>
+        <!-- Expanded rows -->
+        @if (expandedOrderId === order.id) {
+        <tr class="expanded-row expanded-header">
+          <td colspan="5">
+            <strong>Status history:</strong>
+          </td>
+        </tr>
+        @for (status of statusMap.get(order.id) ?? []; track $index) {
+        <tr class="expanded-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td [className]="status.status.includes('ERROR') ? 'ERROR' : status.status">{{ status.status }}</td>
+          <td>{{ status.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+        </tr>
+        }
+        }
+        }
+      </table>
+    </section>
+  </div>
+</div>
+}
+@else {
+<p style="text-align: center;">WebSocket is not connected. Please connect to see the orders.</p>
+}

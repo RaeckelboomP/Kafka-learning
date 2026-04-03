@@ -1,0 +1,121 @@
+#connection-section {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.expanded-row {
+    background-color: #e9e9e9;
+}
+
+#form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ca3f3f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#messages-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#messages-sections {
+    width: 100%;
+    max-width: 1024px;
+    max-height: 92vh;
+    overflow: auto;
+}
+
+#order-creation-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#orders-table th {
+    text-align: left;
+}
+
+#orders-table .data-row:hover {
+    background-color: #f5f5f5;
+}
+
+.row-error {
+    background-color: #ffcccc;
+}
+
+.sub-message {
+    font-size: 14px;
+    color: #666;
+    margin: 0 10px;
+    align-self: center;
+}
+
+.PROCESSING {
+    color: #ff9800;
+}
+
+.SHIPPING {
+    color: #2196f3;
+}
+
+.TRANSITTING {
+    color: #9c27b0;
+}
+
+.DELIVERED {
+    color: #4caf50;
+}
+
+.ERROR {
+    color: #4b0500;
+    font-weight: bold;
+}
+
+.connected {
+    color: #4caf50;
+    font-weight: bold;
+}
+.disconnected {
+    color: #f44336;
+    font-weight: bold;
+}
