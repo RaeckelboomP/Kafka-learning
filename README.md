@@ -34,10 +34,11 @@ Another pro of this architecture is to greatly simplify the tests creation.
 
 ### With Docker-compose
 
-You can launch the whole application with the following command:
+With Docker you can launch the whole application with the following command:
 ```bash
 docker compose up -d
 ```
+Then go to localhost:4200 with your browser.
 
 ### Environment
 
