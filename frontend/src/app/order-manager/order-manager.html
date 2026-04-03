@@ -17,7 +17,7 @@
 @if (webSocketConnected) {
 <div id="order-creation-section">
   <form id="form" [formGroup]="messageForm" aria-label="Aria Label">
-    <input type="text" maxlength="15" placeholder="Type a message..." formControlName="message"
+    <input type="text" maxlength="15" placeholder="Type an item to order..." formControlName="message"
       (keydown.enter)="sendMessage()" />
     <button type="button" (click)="sendMessage()" id="send-button-create-order" [disabled]="messageForm.invalid">Create
       order</button>

@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.raeckelboomp</groupId>
-	<artifactId>learning-kafka</artifactId>
+	<artifactId>kafka-order-processing-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>learning-kafka</name>
-	<description>Java backend for the learning-kafka project</description>
+	<name>kafka-order-processing-demo</name>
+	<description>Java backend for the kafka-order-processing-demo project</description>
 	<url />
 	<licenses>
 		<license />
@@ -65,6 +65,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

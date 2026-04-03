@@ -6,7 +6,7 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@broker:9093
@@ -17,21 +17,3 @@ services:
       KAFKA_NUM_PARTITIONS: 3
     ports:
       - "9092:9092"
-  
-  backend:
-    build: ./backend-java
-    container_name: backend
-    depends_on:
-      - broker
-    environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:9092
-    ports:
-      - "8080:8080"
-
-  frontend:
-    build: ./frontend
-    container_name: frontend
-    depends_on:
-      - backend
-    ports:
-      - "4200:80"
