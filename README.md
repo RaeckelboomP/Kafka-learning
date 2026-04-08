@@ -1,38 +1,49 @@
 # Kafka order processing demo
-Event-driven order processing system using Kafka, WebSocket and hexagonal architecture.
+Real-time order processing system demonstrating event-driven architecture using Kafka, WebSocket, and hexagonal architecture.
 
-This project use **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **Docker**.
+Simulates how modern backend systems handle asynchronous workflows and real-time updates.
 
-## Quick demo
+This project uses **Java 21**, **Angular 20**, **Kafka**, **DevContainer** and **Docker**.
+
+## Why this project ?
+This project demonstrates how a real-world system can:
+- decouple services using Kafka
+- process events asynchronously
+- stream updates in real-time to clients
+- remain maintainable using hexagonal architecture
+
+## Key concepts demonstrated
+- Event-driven architecture (Kafka)
+- Asynchronous processing
+- Real-time communication (WebSocket)
+- Hexagonal architecture (ports & adapters)
+- Fullstack integration (Spring + Angular)
+
+## Quick demo 
 <img alt="Quick demo" src="quick-demo.gif" width="900" style="display:block;margin-left:auto;margin-right:auto;">
 
 ## Architecture
 
-- Java application (hexagonal architecture, kafka producer and consumer)
+- Java application (kafka producer and consumer)
 - Kafka broker
-- Angular application (shows Java messages)
+- Angular application
 
-### Simplified flow
-- Order creation event sent from the frontend
-- Backend create the order event
-- Event sent to Kafka
-- Asynchronous processing
-- Status updates streamed via WebSocket
+### Backend
+The backend follows a hexagonal architecture:
+- Domain logic is isolated from infrastructure
+- Kafka and WebSocket are implemented as adapters
+- It makes the system easily testable and extensible
 
-To test Kafka's capabilities, the Angular application will have one button to create an order, a list of orders and their status.
-
-The backend will receive the order and create via the producer an OrderEvent in kafka's orders topic, the consumer will then receive this OrderEvent and create an OrderStatusEvent in kafka's order-status topic, and periodically update the status **PROCESSING → SHIPPED → IN_TRANSIT → DELIVERED**. Each order update is sent by websocket to the frontend to display it in the list.
+### Event flow
+- User creates an order from the UI
+- OrderEvent is sent to Kafka (`orders` topic)
+- Consumer processes the event
+- OrderStatusEvents are produced (`order-status` topic)
+- Updates are streamed to the frontend via WebSocket
 
 <img alt="Application's architecture and process" src="frontend/src/assets/images/kafka_websocket_architecture.png" width="900" style="display:block;margin-left:auto;margin-right:auto;">
 
-### Backend's hexagonal architecture
-The hexagonal architecture permits us to change the implementations of the features without modifying the core code, for example we can change Kafka for RabbitMQ just by implementing the needed functions defined by the feature's interface.
-
-Another pro of this architecture is to greatly simplify the tests creation.
-
 ## How to launch the application
-
-### With Docker-compose
 
 With Docker you can launch the whole application with the following command:
 ```bash
@@ -40,7 +51,32 @@ docker compose up -d
 ```
 Then go to localhost:4200 with your browser.
 
-### Environment
+## How to use the application
+
+### WebSocket connection
+Open http://localhost:4200/ on your browser. The WebSocketService will try to connect to the backend, if nothing happens, check the backend.
+
+### Orders handling
+- Create one or multiple orders from the UI
+- Status updates are displayed in real-time
+- Each order can be expanded to see its history
+- You can clear the array with the button "Clear data"
+
+## How to test the application
+### Java backend
+- Unit tests using JUnit and Mockito  
+- Isolation of business logic through hexagonal architecture (ports & adapters)
+- Validation of Kafka consumers, application services, and domain services
+
+### Frontend
+- Component testing with Angular TestBed and Jasmine  
+- Mocking of WebSocket (STOMP) services
+- Validation of UI rendering and reactive data flows (RxJS)
+
+### Tooling
+Maven (`mvn test`) and Angular CLI (`ng test`)
+
+## Development setup (optional)
 
 You can either use the [Dev container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) to get an environment able to work on and run the application, or install the required tools :
 
@@ -66,60 +102,8 @@ You can either use the [Dev container extension](https://marketplace.visualstudi
 - ```
   cd frontend
   ng serve --host 0.0.0.0 --port 4200 // or npm start
-## How to use the application
 
-### WebSocket connection
-Open http://localhost:4200/ on your browser. The WebSocketService will try to connect to the backend, if nothing happens, check the backend.
-
-Once the connection is up, you can try to disconnect and reconnect manually. You can also relaunch the backend, you will be disconnected and the WebSocketService will try to reconnect automatically until it succeed.
-
-### Orders handling
-You can type an item to order in the text input, if it's empty, it will select a random item.
-
-You can create one order, or 20 of them at once, the orders will appear in the Orders array below.
-
-Each order can be expanded to see its history with each status.
-
-You can clear the array with the button "Clear data".
-
-## How to test the application
-### Java backend
-
-- Open a terminal
-- ```
-  cd backend-java
-  mvn test
-### Frontend
-
-- Open a new terminal
-- ```bash
-  cd frontend
-  ng test
-## How to use kafka
-
-Use the command ```docker compose up -d``` to start the kafka instance.
-
-To create the topics : 
-```bash 
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topic-1 --partitions 3 --replication-factor 1
-
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topic-2 --partitions 3 --replication-factor 1
-```
-To list the topics :
-```bash
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
-```
-To delete a topic :
-```bash
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh \
-  --bootstrap-server localhost:9092 \
-  --delete --topic topic-1
-```
-This kafka container persist data between launches, to load new configurations, use ```docker compose down -v```.
-
-To check the configurations use ```docker exec -it broker env | grep KAFKA```.
-
-### Notes on the configuration for devcontainer usage
+## Notes on the configuration for devcontainer usage (optional)
 
 In the docker-compose for kafka :
 ```KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092```

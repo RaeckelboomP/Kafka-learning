@@ -76,8 +76,4 @@ public class KafkaConsumerTest {
         assertEquals("pizza", captured.orderItem());
         assertEquals(orderId, captured.orderId());
     }
-    /*
-    [ERROR] Failures: 
-    [ERROR]   KafkaConsumerTest.should_process_order_status_use_case:75 expected: <status> but was: <PROCESSING>
-    */
 }
